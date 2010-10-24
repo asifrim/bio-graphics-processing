@@ -8,8 +8,8 @@
 
 module Bio::Graphics::Glyph
   class Bio::Graphics::Glyph::Generic < Bio::Graphics::Glyph::Common
-    def draw
-      @feature_context.rectangle(self.left_pixel, 0, (self.right_pixel - self.left_pixel), Bio::Graphics::FEATURE_HEIGHT).fill
+    def render(panel)
+      panel.rect(self.left_pixel, self.subfeature.feature.vertical_offset, (self.right_pixel - self.left_pixel), Bio::Graphics::FEATURE_HEIGHT)
     end
   end
 end

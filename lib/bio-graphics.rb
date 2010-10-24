@@ -8,8 +8,6 @@
 # 
 
 require 'bio'
-require 'cairo'
-require 'pango'
 require 'stringio'
 
 class Range
@@ -38,6 +36,7 @@ end
 
 require File.dirname(__FILE__) + '/feature.rb'
 require File.dirname(__FILE__) + '/bio/graphics/panel.rb'
+require File.dirname(__FILE__) + '/bio/graphics/trackplot.rb'
 require File.dirname(__FILE__) + '/bio/graphics/image_map.rb'
 require File.dirname(__FILE__) + '/bio/graphics/track.rb'
 require File.dirname(__FILE__) + '/bio/graphics/feature.rb'

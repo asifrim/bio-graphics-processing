@@ -8,10 +8,10 @@
 
 module Bio::Graphics::Glyph
   class Bio::Graphics::Glyph::Common
-    def initialize(subfeature, feature_context)
-      @subfeature, @feature_context = subfeature, feature_context
+    def initialize(subfeature)
+      @subfeature = subfeature
     end
-    attr_accessor :subfeature, :feature_context
+    attr_accessor :subfeature
 
     def left_pixel
       if self.class == Bio::Graphics::Glyph::Triangle
@@ -107,28 +107,20 @@ module Bio::Graphics::Glyph
 
     # Method to draw the arrows of directed glyphs. Not to be used
     # directly, but called by Feature#draw.
-    def open_arrow(feature_context,direction,x,y,size)
+    def open_arrow(panel,direction,x,y,size)
       case direction
       when :right
-        feature_context.move_to(x,y)
-        feature_context.rel_line_to(size,size)
-        feature_context.rel_line_to(-size,size)
-        feature_context.stroke
+        panel.line(x,y,x+size,y+size)
+        panel.line(x+size,y+size,x,y+2*size)
       when :left
-        feature_context.move_to(x,y)
-        feature_context.rel_line_to(-size,size)
-        feature_context.rel_line_to(size,size)
-        feature_context.stroke
+        panel.line(x,y,x-size,y+size)
+        panel.line(x-size,y+size,x,y+2*size)
       when :north
-        feature_context.move_to(x-size,y+size)
-        feature_context.rel_line_to(size,-size)
-        feature_context.rel_line_to(size,size)
-        feature_context.stroke
+        panel.line(x-size,y+size,x,y)
+        panel.line(x,y,x+size,y+size)
       when :south
-        feature_context.move_to(x-size,y-size)
-        feature_context.rel_line_to(size,size)
-        feature_context.rel_line_to(size,-size)
-        feature_context.stroke
+        panel.line(x-size,y-size,x,y)
+        panel.line(x,y,x+size,y-size)
       end
     end
     
@@ -146,4 +138,5 @@ module Bio::Graphics::Glyph
     end                    
 
   end
+  
 end

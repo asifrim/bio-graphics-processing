@@ -130,58 +130,5 @@ class Bio::Graphics::SubFeature
   # *Arguments*:
   # * _track_drawing_ (required) :: the track cairo object
   # *Returns*:: FIXME: I don't know
-  def draw(feature_context)
-    # Set the glyph to be used. The glyph can be set as a symbol (e.g. :generic)
-    # or as a hash (e.g. {'utr' => :line, 'cds' => :directed_spliced}).
-    if @feature.glyph.class == Hash
-      @glyph = @feature.glyph[@feature_object.feature]
-    else
-      @glyph = @feature.glyph
-    end
-
-    # We have to check if we want to change the glyph type from directed to
-    #    undirected
-    # There are 2 cases where we don't want to draw arrows on
-    # features:
-    # (a) when the picture is really zoomed out, features are
-    #     so small that the arrow itself is too big
-    # (b) if a directed feature on the fw strand extends beyond
-    #     the end of the picture, the arrow is out of view. This
-    #     is the same as considering the feature as undirected.
-    #     The same obviously goes for features on the reverse
-    #     strand that extend beyond the left side of the image.
-    #
-    # (a) Zoomed out
-    replace_directed_with_undirected = false
-    if (@stop - @start).to_f/@feature.track.panel.rescale_factor.to_f < 2
-      replace_directed_with_undirected = true
-    end
-    # (b) Extending beyond borders picture
-    if ( @chopped_at_stop and @strand = 1 ) or ( @chopped_at_start and @strand = -1 )
-      replace_directed_with_undirected = true
-    end
-
-    local_feature_glyph = nil
-    if @glyph == :directed_generic and replace_directed_with_undirected
-      local_feature_glyph = :generic
-    elsif @glyph == :directed_spliced and replace_directed_with_undirected
-      local_feature_glyph = :spliced
-    elsif @glyph == :directed_box and replace_directed_with_undirected
-      local_feature_glyph = :box
-    else
-      local_feature_glyph = @glyph
-    end
-
-    # And draw the thing.
-
-    feature_context.set_source_rgb(@colour)
-
-    glyph = ("Bio::Graphics::Glyph::" + local_feature_glyph.to_s.camel_case).to_class.new(self, feature_context)
-    glyph.draw
-
-    @feature.left_pixel_of_subfeatures.push(glyph.left_pixel)
-    @feature.right_pixel_of_subfeatures.push(glyph.right_pixel)
-
-      
-  end        
+  
 end #SubFeature

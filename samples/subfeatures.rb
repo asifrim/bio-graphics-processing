@@ -1,3 +1,4 @@
+require 'rubygems'
 require '../lib/bio-graphics'
 my_panel = Bio::Graphics::Panel.new(700, :width => 600)
 
@@ -28,4 +29,6 @@ track.add_feature(transcript, :label => 'my_label_a', :glyph => { 'utr' => :line
 # Or do it all in one go, but then we can't do subfeatures.
 track.add_feature(Bio::Feature.new('mrna', 'complement(join(120..250, 300..350, 375..390))'), :label => 'my_label_b', :colour => [0,1,0])
 
-my_panel.draw('subfeatures.png')
+plot = Trackplot.new
+plot.render_panel(my_panel)
+

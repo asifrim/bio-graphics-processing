@@ -22,7 +22,7 @@ class Bio::Graphics::Ruler
   # *Arguments*:
   # * _panel_ (required) :: Bio::Graphics::Panel object that this ruler
   #   belongs to
-  # * _colour_ :: colour of the ruler. Default = 'black'
+  # * _colour_ :: colour off the ruler. Default = 'black'
   # *Returns*:: Bio::Graphics::Ruler object
   def initialize(panel, colour = [0,0,0])
     @panel = panel
@@ -37,20 +37,21 @@ class Bio::Graphics::Ruler
     @tick_text_height = 10
 
     @minor_tick_distance = @min_pixels_per_tick ** self.scaling_factor
-    @major_tick_distance = @minor_tick_distance * 10       
+    @major_tick_distance = @minor_tick_distance * 10
+    @height = 5*@tick_height + @tick_text_height
   end
   attr_accessor(:panel, :name, :colour, :height,
-                :minor_tick_distance, :major_tick_distance,
-                :min_pixels_per_tick, :tick_height, :tick_text_height)
+    :minor_tick_distance, :major_tick_distance,
+    :min_pixels_per_tick, :tick_height, :tick_text_height)
 
   def scaling_factor(min_pixels_per_tick = @min_pixels_per_tick,
-                          rescale_factor = @panel.rescale_factor)
+      rescale_factor = @panel.rescale_factor)
     (Math.log(min_pixels_per_tick * rescale_factor) /
-     Math.log(min_pixels_per_tick)).ceil 
+        Math.log(min_pixels_per_tick)).ceil
   end
 
   def first_tick_position(start = @panel.display_start,
-                          minor_tick = @minor_tick_distance)
+      minor_tick = @minor_tick_distance)
     #  * Find position of first tick.
     #    Most of the time, we don't want the first tick on the very first
     #    basepair of the view. Suppose that would be position 333 in the
@@ -61,35 +62,6 @@ class Bio::Graphics::Ruler
     start + (modulo_from_tick > 0 ? (minor_tick - modulo_from_tick + 1) : 0)
   end
   
-  def draw(panel_drawing)
-    ruler_drawing = Cairo::Context.new(panel_drawing)
-
-    # Draw line
-    ruler_drawing.move_to(0,10)
-    ruler_drawing.line_to(panel.width, 10)
-    ruler_drawing.stroke
-
-    # Draw ticks
-    #  * And start drawing the rest.
-    first_tick_position.step(@panel.display_stop, @minor_tick_distance) do |tick|
-      tick_pixel_position = (tick - panel.display_start) / @panel.rescale_factor
-      ruler_drawing.move_to(tick_pixel_position.floor, @min_pixels_per_tick)
-      if tick.modulo(@major_tick_distance) == 0
-        ruler_drawing.rel_line_to(0, 3*@tick_height)
-        
-        # Draw tick number
-        ruler_drawing.select_font_face(*Bio::Graphics::FONT)
-        ruler_drawing.set_font_size(@tick_text_height)
-        ruler_drawing.move_to(tick_pixel_position.floor, 4*@tick_height + @tick_text_height)
-        ruler_drawing.show_text(tick.to_i.to_s)
-      else
-        ruler_drawing.rel_line_to(0, @tick_height)
-        
-      end
-      ruler_drawing.stroke
-    end
-
-    @height = 5*@tick_height + @tick_text_height          
-  end
+   
 end
 

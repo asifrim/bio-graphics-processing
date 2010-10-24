@@ -114,42 +114,7 @@ class Bio::Graphics::Track
   end
 
 
-  # Adds the track to a cairo drawing. This method should not be used
-  # directly by the user, but is called by Bio::Graphics::Panel.draw
-  # ---
-  # *Arguments*:
-  # * _panel__drawing_ (required) :: the panel cairo object
-  # *Returns*:: FIXME: I don't know
-  def draw(panel_destination)
-    track_context = Cairo::Context.new(panel_destination)
-
-    # Draw thin line above title
-    track_context.set_source_rgb(0.75,0.75,0.75)
-    track_context.move_to(0, self.vertical_offset)
-    track_context.line_to(self.panel.width, self.vertical_offset)
-    track_context.stroke
-
-    # Draw track title
-    track_context.set_source_rgb(0,0,0)
-    track_context.select_font_face(*(Bio::Graphics::FONT))
-    track_context.set_font_size(Bio::Graphics::TRACK_HEADER_HEIGHT)
-    track_context.move_to(0,Bio::Graphics::TRACK_HEADER_HEIGHT + self.vertical_offset + 10)
-    track_context.show_text(self.name)
-
-    # Draw the features
-    @features.sort_by{|f| f.start}.each do |feature|
-      # Don't even bother if the feature is not in the view
-      if feature.stop <= self.panel.display_start or feature.start >= self.panel.display_stop
-        next
-      else
-        feature.draw(panel_destination)
-      end
-    end
-
-    @number_of_feature_rows = ( @grid.keys.length == 0 ) ? 1 : @grid.keys.max + 1
-
-    return panel_destination
-  end
+ 
 
 end #Track
 
