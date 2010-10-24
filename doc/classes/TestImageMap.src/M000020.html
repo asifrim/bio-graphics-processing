@@ -1,0 +1,56 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_horizontal_imagemap (TestImageMap)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/unit/test_imagemap.rb, line 47</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_horizontal_imagemap</span>
+    <span class="ruby-identifier">my_panel</span> = <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">Panel</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">4173015</span>, <span class="ruby-identifier">:width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">600</span>, <span class="ruby-identifier">:clickable</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>)
+    
+    <span class="ruby-comment cmt">#Create and configure tracks</span>
+    <span class="ruby-identifier">scaffold_track</span> = <span class="ruby-identifier">my_panel</span>.<span class="ruby-identifier">add_track</span>(<span class="ruby-value str">'scaffold'</span>, <span class="ruby-identifier">:label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">false</span>)
+    <span class="ruby-identifier">marker_track</span> = <span class="ruby-identifier">my_panel</span>.<span class="ruby-identifier">add_track</span>(<span class="ruby-value str">'marker'</span>, <span class="ruby-identifier">:label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">true</span>)
+    <span class="ruby-identifier">clone_track</span> = <span class="ruby-identifier">my_panel</span>.<span class="ruby-identifier">add_track</span>(<span class="ruby-value str">'clone'</span>, <span class="ruby-identifier">:label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">false</span>)
+    
+    <span class="ruby-identifier">scaffold_track</span>.<span class="ruby-identifier">colour</span> = [<span class="ruby-value">1</span>,<span class="ruby-value">0</span>,<span class="ruby-value">0</span>]
+    <span class="ruby-identifier">marker_track</span>.<span class="ruby-identifier">colour</span> = [<span class="ruby-value">0</span>,<span class="ruby-value">1</span>,<span class="ruby-value">0</span>]
+    <span class="ruby-identifier">marker_track</span>.<span class="ruby-identifier">glyph</span> = <span class="ruby-identifier">:triangle</span>
+    <span class="ruby-identifier">clone_track</span>.<span class="ruby-identifier">colour</span> = [<span class="ruby-value">0</span>,<span class="ruby-value">0</span>,<span class="ruby-value">1</span>]
+    
+    <span class="ruby-comment cmt"># Add data to tracks</span>
+    <span class="ruby-constant">File</span>.<span class="ruby-identifier">open</span>(<span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword kw">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-value str">'/data.txt'</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">line</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">line</span>.<span class="ruby-identifier">chomp!</span>
+      <span class="ruby-identifier">accession</span>, <span class="ruby-identifier">type</span>, <span class="ruby-identifier">start</span>, <span class="ruby-identifier">stop</span> = <span class="ruby-identifier">line</span>.<span class="ruby-identifier">split</span>(<span class="ruby-regexp re">/\t/</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'scaffold'</span>
+        <span class="ruby-keyword kw">if</span> <span class="ruby-identifier">start</span>.<span class="ruby-identifier">nil?</span>
+          <span class="ruby-identifier">scaffold_track</span>.<span class="ruby-identifier">add_feature</span>(<span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'scaffold'</span>, <span class="ruby-value str">'1..4173015'</span>), <span class="ruby-identifier">:label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">accession</span>)
+        <span class="ruby-keyword kw">else</span>
+          <span class="ruby-identifier">scaffold_track</span>.<span class="ruby-identifier">add_feature</span>(<span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'scaffold'</span>, <span class="ruby-identifier">start</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'..'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">stop</span>), <span class="ruby-identifier">:label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">accession</span>, <span class="ruby-identifier">:link</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'http://www.google.com'</span>)
+        <span class="ruby-keyword kw">end</span>
+          
+      <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'marker'</span>
+        <span class="ruby-identifier">marker_track</span>.<span class="ruby-identifier">add_feature</span>(<span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'marker'</span>, ((<span class="ruby-identifier">start</span>.<span class="ruby-identifier">to_i</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">stop</span>.<span class="ruby-identifier">to_i</span>)<span class="ruby-operator">/</span><span class="ruby-value">2</span>).<span class="ruby-identifier">to_s</span>), <span class="ruby-identifier">:label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">accession</span>, <span class="ruby-identifier">:link</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'http://www.thearkdb.org/arkdb/do/getMarkerDetail?accession='</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">accession</span>)
+      <span class="ruby-keyword kw">elsif</span> <span class="ruby-identifier">type</span> <span class="ruby-operator">==</span> <span class="ruby-value str">'clone'</span>
+        <span class="ruby-identifier">clone_track</span>.<span class="ruby-identifier">add_feature</span>(<span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'clone'</span>, <span class="ruby-identifier">start</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'..'</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">stop</span>), <span class="ruby-identifier">:label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">accession</span>)
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># And draw</span>
+    <span class="ruby-identifier">output_file</span> = <span class="ruby-constant">File</span>.<span class="ruby-identifier">dirname</span>(<span class="ruby-keyword kw">__FILE__</span>) <span class="ruby-operator">+</span> <span class="ruby-value str">'/'</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@method_name</span> <span class="ruby-operator">+</span> <span class="ruby-value str">'.png'</span>
+    <span class="ruby-identifier">html_file</span> = <span class="ruby-identifier">output_file</span>.<span class="ruby-identifier">sub</span>(<span class="ruby-regexp re">/\.png$/</span>, <span class="ruby-value str">'.html'</span>)
+    <span class="ruby-ivar">@generated_files</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">output_file</span>)
+    <span class="ruby-ivar">@generated_files</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">html_file</span>)
+
+    <span class="ruby-identifier">my_panel</span>.<span class="ruby-identifier">draw</span>(<span class="ruby-identifier">output_file</span>)
+    
+    <span class="ruby-identifier">assert_equal</span>(<span class="ruby-ivar">@horizontal_imagemap</span>, <span class="ruby-constant">File</span>.<span class="ruby-identifier">read</span>(<span class="ruby-identifier">html_file</span>))
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

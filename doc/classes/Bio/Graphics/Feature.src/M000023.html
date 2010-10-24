@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>draw (Bio::Graphics::Feature)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/bio/graphics/feature.rb, line 106</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw</span>(<span class="ruby-identifier">panel_destination</span>)
+    <span class="ruby-identifier">feature_context</span> = <span class="ruby-constant">Cairo</span><span class="ruby-operator">::</span><span class="ruby-constant">Context</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">panel_destination</span>)
+
+    <span class="ruby-comment cmt"># Move the feature drawing down based on track it's in and the number</span>
+    <span class="ruby-comment cmt"># of times is has to be bumped</span>
+    <span class="ruby-identifier">row</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">find_row</span>
+
+    <span class="ruby-ivar">@vertical_offset</span> = <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">track</span>.<span class="ruby-identifier">vertical_offset</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">TRACK_HEADER_HEIGHT</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_V_DISTANCE</span>
+    <span class="ruby-ivar">@vertical_offset</span> <span class="ruby-operator">+=</span> (<span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_HEIGHT</span><span class="ruby-operator">+</span><span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_V_DISTANCE</span>)<span class="ruby-operator">*</span><span class="ruby-identifier">row</span>
+    
+    <span class="ruby-identifier">feature_context</span>.<span class="ruby-identifier">translate</span>(<span class="ruby-value">0</span>, <span class="ruby-ivar">@vertical_offset</span>)
+
+    
+    <span class="ruby-comment cmt"># Let the subfeatures do the drawing.</span>
+    <span class="ruby-ivar">@subfeatures</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">subfeature</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">subfeature</span>.<span class="ruby-identifier">draw</span>(<span class="ruby-identifier">feature_context</span>)
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-ivar">@left_pixel_of_feature</span> = <span class="ruby-ivar">@left_pixel_of_subfeatures</span>.<span class="ruby-identifier">min</span>
+    <span class="ruby-ivar">@right_pixel_of_feature</span> = <span class="ruby-ivar">@right_pixel_of_subfeatures</span>.<span class="ruby-identifier">max</span>
+    
+    <span class="ruby-comment cmt"># Add the label for the feature</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@track</span>.<span class="ruby-identifier">show_label</span>
+      <span class="ruby-identifier">pango_layout</span> = <span class="ruby-identifier">feature_context</span>.<span class="ruby-identifier">create_pango_layout</span>
+      <span class="ruby-identifier">pango_layout</span>.<span class="ruby-identifier">text</span> = <span class="ruby-ivar">@label</span>
+      <span class="ruby-identifier">fdesc</span> = <span class="ruby-constant">Pango</span><span class="ruby-operator">::</span><span class="ruby-constant">FontDescription</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'Sans Serif'</span>)
+      <span class="ruby-identifier">fdesc</span>.<span class="ruby-identifier">set_size</span>(<span class="ruby-value">8</span> <span class="ruby-operator">*</span> <span class="ruby-constant">Pango</span><span class="ruby-operator">::</span><span class="ruby-constant">SCALE</span>)
+      <span class="ruby-identifier">pango_layout</span>.<span class="ruby-identifier">font_description</span> = <span class="ruby-identifier">fdesc</span>
+
+      <span class="ruby-identifier">text_range</span> = <span class="ruby-ivar">@start</span>.<span class="ruby-identifier">floor</span><span class="ruby-operator">..</span>(<span class="ruby-ivar">@start</span>.<span class="ruby-identifier">floor</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">pango_layout</span>.<span class="ruby-identifier">pixel_size</span>[<span class="ruby-value">0</span>]<span class="ruby-operator">*</span><span class="ruby-ivar">@track</span>.<span class="ruby-identifier">panel</span>.<span class="ruby-identifier">rescale_factor</span>)
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@track</span>.<span class="ruby-identifier">grid</span>[<span class="ruby-identifier">row</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>].<span class="ruby-identifier">nil?</span>
+        <span class="ruby-ivar">@track</span>.<span class="ruby-identifier">grid</span>[<span class="ruby-identifier">row</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>] = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-ivar">@track</span>.<span class="ruby-identifier">grid</span>[<span class="ruby-identifier">row</span>].<span class="ruby-identifier">push</span>(<span class="ruby-identifier">text_range</span>)
+      <span class="ruby-ivar">@track</span>.<span class="ruby-identifier">grid</span>[<span class="ruby-identifier">row</span><span class="ruby-operator">+</span><span class="ruby-value">1</span>].<span class="ruby-identifier">push</span>(<span class="ruby-identifier">text_range</span>)
+      <span class="ruby-identifier">feature_context</span>.<span class="ruby-identifier">move_to</span>(<span class="ruby-ivar">@left_pixel_of_feature</span>, <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">TRACK_HEADER_HEIGHT</span>)
+      <span class="ruby-identifier">feature_context</span>.<span class="ruby-identifier">set_source_rgb</span>(<span class="ruby-value">0</span>,<span class="ruby-value">0</span>,<span class="ruby-value">0</span>)
+      <span class="ruby-identifier">feature_context</span>.<span class="ruby-identifier">show_pango_layout</span>(<span class="ruby-identifier">pango_layout</span>)
+      <span class="ruby-identifier">feature_context</span>.<span class="ruby-identifier">set_source_rgb</span>(<span class="ruby-ivar">@colour</span>)
+    <span class="ruby-keyword kw">end</span>
+
+
+    <span class="ruby-comment cmt"># And add the region to the image map</span>
+    <span class="ruby-comment cmt"># Comment: we have to add the vertical_offset and TRACK_HEADER_HEIGHT!</span>
+    <span class="ruby-ivar">@track</span>.<span class="ruby-identifier">panel</span>.<span class="ruby-identifier">image_map</span>.<span class="ruby-identifier">add_element</span>(<span class="ruby-ivar">@left_pixel_of_feature</span>,
+                                       <span class="ruby-ivar">@vertical_offset</span>,
+                                       <span class="ruby-ivar">@right_pixel_of_feature</span>,
+                                       <span class="ruby-ivar">@vertical_offset</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_HEIGHT</span>,
+                                       <span class="ruby-ivar">@link</span>
+                                       )
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

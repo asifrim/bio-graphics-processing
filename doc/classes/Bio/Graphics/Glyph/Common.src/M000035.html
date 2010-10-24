@@ -1,0 +1,24 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>right_pixel (Bio::Graphics::Glyph::Common)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/bio/graphics/glyphs/common.rb, line 26</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">right_pixel</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">Glyph</span><span class="ruby-operator">::</span><span class="ruby-constant">Triangle</span>
+        <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@subfeature</span>.<span class="ruby-identifier">pixel_range_collection</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">rend</span> <span class="ruby-operator">+</span> <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_ARROW_LENGTH</span>
+      <span class="ruby-keyword kw">elsif</span> <span class="ruby-keyword kw">self</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">Glyph</span><span class="ruby-operator">::</span><span class="ruby-constant">Dot</span>
+        <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@subfeature</span>.<span class="ruby-identifier">pixel_range_collection</span>[<span class="ruby-value">0</span>].<span class="ruby-identifier">rend</span> <span class="ruby-operator">+</span> <span class="ruby-ivar">@radius</span>
+      <span class="ruby-keyword kw">else</span>
+        <span class="ruby-keyword kw">return</span> <span class="ruby-ivar">@subfeature</span>.<span class="ruby-identifier">pixel_range_collection</span>.<span class="ruby-identifier">sort_by</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">pr</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pr</span>.<span class="ruby-identifier">lend</span>}[<span class="ruby-value">-1</span>].<span class="ruby-identifier">rend</span>
+      <span class="ruby-keyword kw">end</span>
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>setup (TestSubFeature)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/unit/test_subfeatures.rb, line 5</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">setup</span>
+    <span class="ruby-ivar">@utr5</span> = <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'utr'</span>, <span class="ruby-value str">'100..150'</span>)
+    <span class="ruby-ivar">@cds</span> = <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'cds'</span>, <span class="ruby-value str">'join(150..225, 250..275, 310..330)'</span>)
+    <span class="ruby-ivar">@utr3</span> = <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'utr'</span>, <span class="ruby-value str">'330..375'</span>)
+    <span class="ruby-ivar">@transcript</span> = <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'transcript'</span>, <span class="ruby-value str">'join(100..150, 150..225, 250..275, 310..330, 330..375)'</span>, [], <span class="ruby-keyword kw">nil</span>, [<span class="ruby-ivar">@utr5</span>,<span class="ruby-ivar">@cds</span>,<span class="ruby-ivar">@utr3</span>])
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

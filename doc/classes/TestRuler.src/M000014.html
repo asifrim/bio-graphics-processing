@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_drawing (TestRuler)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/unit/test_creation.rb, line 51</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_drawing</span>
+    <span class="ruby-identifier">panel</span> = <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">Panel</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">375</span>, <span class="ruby-identifier">:display_range</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">100</span><span class="ruby-operator">..</span><span class="ruby-value">370</span>, <span class="ruby-identifier">:width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">600</span>)
+    <span class="ruby-identifier">ruler</span> = <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">Ruler</span>.<span class="ruby-identifier">new</span>(<span class="ruby-identifier">panel</span>)
+
+    <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">270.0</span><span class="ruby-operator">/</span><span class="ruby-value">600.0</span>,<span class="ruby-identifier">panel</span>.<span class="ruby-identifier">rescale_factor</span>)
+    <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">1</span>,<span class="ruby-identifier">ruler</span>.<span class="ruby-identifier">scaling_factor</span>)
+    <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">5</span>,<span class="ruby-identifier">ruler</span>.<span class="ruby-identifier">minor_tick_distance</span>)
+    <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">50</span>,<span class="ruby-identifier">ruler</span>.<span class="ruby-identifier">major_tick_distance</span>)
+    <span class="ruby-identifier">assert_equal</span>(<span class="ruby-value">100</span>,<span class="ruby-identifier">ruler</span>.<span class="ruby-identifier">first_tick_position</span>)
+    
+    <span class="ruby-identifier">i</span> = <span class="ruby-value">0</span>
+    <span class="ruby-identifier">ruler</span>.<span class="ruby-identifier">first_tick_position</span>.<span class="ruby-identifier">step</span>(<span class="ruby-identifier">panel</span>.<span class="ruby-identifier">display_stop</span>, <span class="ruby-identifier">ruler</span>.<span class="ruby-identifier">minor_tick_distance</span>) <span class="ruby-keyword kw">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">tick</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">assert</span>(<span class="ruby-identifier">i</span><span class="ruby-operator">*</span><span class="ruby-identifier">ruler</span>.<span class="ruby-identifier">min_pixels_per_tick</span>,(<span class="ruby-identifier">tick</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">panel</span>.<span class="ruby-identifier">display_start</span>) <span class="ruby-operator">/</span> <span class="ruby-identifier">panel</span>.<span class="ruby-identifier">rescale_factor</span>)
+      <span class="ruby-identifier">i</span> <span class="ruby-operator">+=</span> <span class="ruby-value">1</span>
+    <span class="ruby-keyword kw">end</span>    
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

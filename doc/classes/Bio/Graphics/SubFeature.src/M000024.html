@@ -1,0 +1,69 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>draw (Bio::Graphics::SubFeature)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/bio/graphics/subfeature.rb, line 133</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw</span>(<span class="ruby-identifier">feature_context</span>)
+    <span class="ruby-comment cmt"># Set the glyph to be used. The glyph can be set as a symbol (e.g. :generic)</span>
+    <span class="ruby-comment cmt"># or as a hash (e.g. {'utr' =&gt; :line, 'cds' =&gt; :directed_spliced}).</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@feature</span>.<span class="ruby-identifier">glyph</span>.<span class="ruby-identifier">class</span> <span class="ruby-operator">==</span> <span class="ruby-constant">Hash</span>
+      <span class="ruby-ivar">@glyph</span> = <span class="ruby-ivar">@feature</span>.<span class="ruby-identifier">glyph</span>[<span class="ruby-ivar">@feature_object</span>.<span class="ruby-identifier">feature</span>]
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-ivar">@glyph</span> = <span class="ruby-ivar">@feature</span>.<span class="ruby-identifier">glyph</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># We have to check if we want to change the glyph type from directed to</span>
+    <span class="ruby-comment cmt">#    undirected</span>
+    <span class="ruby-comment cmt"># There are 2 cases where we don't want to draw arrows on</span>
+    <span class="ruby-comment cmt"># features:</span>
+    <span class="ruby-comment cmt"># (a) when the picture is really zoomed out, features are</span>
+    <span class="ruby-comment cmt">#     so small that the arrow itself is too big</span>
+    <span class="ruby-comment cmt"># (b) if a directed feature on the fw strand extends beyond</span>
+    <span class="ruby-comment cmt">#     the end of the picture, the arrow is out of view. This</span>
+    <span class="ruby-comment cmt">#     is the same as considering the feature as undirected.</span>
+    <span class="ruby-comment cmt">#     The same obviously goes for features on the reverse</span>
+    <span class="ruby-comment cmt">#     strand that extend beyond the left side of the image.</span>
+    <span class="ruby-comment cmt">#</span>
+    <span class="ruby-comment cmt"># (a) Zoomed out</span>
+    <span class="ruby-identifier">replace_directed_with_undirected</span> = <span class="ruby-keyword kw">false</span>
+    <span class="ruby-keyword kw">if</span> (<span class="ruby-ivar">@stop</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@start</span>).<span class="ruby-identifier">to_f</span><span class="ruby-operator">/</span><span class="ruby-ivar">@feature</span>.<span class="ruby-identifier">track</span>.<span class="ruby-identifier">panel</span>.<span class="ruby-identifier">rescale_factor</span>.<span class="ruby-identifier">to_f</span> <span class="ruby-operator">&lt;</span> <span class="ruby-value">2</span>
+      <span class="ruby-identifier">replace_directed_with_undirected</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span>
+    <span class="ruby-comment cmt"># (b) Extending beyond borders picture</span>
+    <span class="ruby-keyword kw">if</span> ( <span class="ruby-ivar">@chopped_at_stop</span> <span class="ruby-keyword kw">and</span> <span class="ruby-ivar">@strand</span> = <span class="ruby-value">1</span> ) <span class="ruby-keyword kw">or</span> ( <span class="ruby-ivar">@chopped_at_start</span> <span class="ruby-keyword kw">and</span> <span class="ruby-ivar">@strand</span> = <span class="ruby-value">-1</span> )
+      <span class="ruby-identifier">replace_directed_with_undirected</span> = <span class="ruby-keyword kw">true</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-identifier">local_feature_glyph</span> = <span class="ruby-keyword kw">nil</span>
+    <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@glyph</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:directed_generic</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">replace_directed_with_undirected</span>
+      <span class="ruby-identifier">local_feature_glyph</span> = <span class="ruby-identifier">:generic</span>
+    <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@glyph</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:directed_spliced</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">replace_directed_with_undirected</span>
+      <span class="ruby-identifier">local_feature_glyph</span> = <span class="ruby-identifier">:spliced</span>
+    <span class="ruby-keyword kw">elsif</span> <span class="ruby-ivar">@glyph</span> <span class="ruby-operator">==</span> <span class="ruby-identifier">:directed_box</span> <span class="ruby-keyword kw">and</span> <span class="ruby-identifier">replace_directed_with_undirected</span>
+      <span class="ruby-identifier">local_feature_glyph</span> = <span class="ruby-identifier">:box</span>
+    <span class="ruby-keyword kw">else</span>
+      <span class="ruby-identifier">local_feature_glyph</span> = <span class="ruby-ivar">@glyph</span>
+    <span class="ruby-keyword kw">end</span>
+
+    <span class="ruby-comment cmt"># And draw the thing.</span>
+
+    <span class="ruby-identifier">feature_context</span>.<span class="ruby-identifier">set_source_rgb</span>(<span class="ruby-ivar">@colour</span>)
+
+    <span class="ruby-identifier">glyph</span> = (<span class="ruby-value str">&quot;Bio::Graphics::Glyph::&quot;</span> <span class="ruby-operator">+</span> <span class="ruby-identifier">local_feature_glyph</span>.<span class="ruby-identifier">to_s</span>.<span class="ruby-identifier">camel_case</span>).<span class="ruby-identifier">to_class</span>.<span class="ruby-identifier">new</span>(<span class="ruby-keyword kw">self</span>, <span class="ruby-identifier">feature_context</span>)
+    <span class="ruby-identifier">glyph</span>.<span class="ruby-identifier">draw</span>
+
+    <span class="ruby-ivar">@feature</span>.<span class="ruby-identifier">left_pixel_of_subfeatures</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">glyph</span>.<span class="ruby-identifier">left_pixel</span>)
+    <span class="ruby-ivar">@feature</span>.<span class="ruby-identifier">right_pixel_of_subfeatures</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">glyph</span>.<span class="ruby-identifier">right_pixel</span>)
+
+      
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

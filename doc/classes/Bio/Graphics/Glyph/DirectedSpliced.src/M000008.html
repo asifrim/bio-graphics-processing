@@ -1,0 +1,40 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>draw (Bio::Graphics::Glyph::DirectedSpliced)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../../../../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File lib/bio/graphics/glyphs/directed_spliced.rb, line 3</span>
+    <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">draw</span>
+      <span class="ruby-identifier">gap_starts</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+      <span class="ruby-identifier">gap_stops</span> = <span class="ruby-constant">Array</span>.<span class="ruby-identifier">new</span>
+
+      <span class="ruby-comment cmt">#   Start with the one with the arrow</span>
+      <span class="ruby-identifier">pixel_ranges</span> = <span class="ruby-ivar">@subfeature</span>.<span class="ruby-identifier">pixel_range_collection</span>.<span class="ruby-identifier">sort_by</span>{<span class="ruby-operator">|</span><span class="ruby-identifier">pr</span><span class="ruby-operator">|</span> <span class="ruby-identifier">pr</span>.<span class="ruby-identifier">lend</span>}
+      <span class="ruby-identifier">range_with_arrow</span> = <span class="ruby-keyword kw">nil</span>
+      <span class="ruby-keyword kw">if</span> <span class="ruby-ivar">@subfeature</span>.<span class="ruby-identifier">strand</span> <span class="ruby-operator">==</span> <span class="ruby-value">-1</span> <span class="ruby-comment cmt"># reverse strand =&gt; box with arrow is first one</span>
+        <span class="ruby-identifier">range_with_arrow</span> = <span class="ruby-identifier">pixel_ranges</span>.<span class="ruby-identifier">shift</span>
+        <span class="ruby-ivar">@feature_context</span>.<span class="ruby-identifier">rectangle</span>((<span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">lend</span>)<span class="ruby-operator">+</span><span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_ARROW_LENGTH</span>, <span class="ruby-value">0</span>, <span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">rend</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">lend</span> <span class="ruby-operator">-</span> <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_ARROW_LENGTH</span>, <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_HEIGHT</span>).<span class="ruby-identifier">fill</span>
+        <span class="ruby-identifier">arrow</span>(<span class="ruby-ivar">@feature_context</span>,<span class="ruby-identifier">:left</span>,<span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">lend</span><span class="ruby-operator">+</span><span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_ARROW_LENGTH</span>, <span class="ruby-value">0</span>,<span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_ARROW_LENGTH</span>)
+        <span class="ruby-ivar">@feature_context</span>.<span class="ruby-identifier">close_path</span>.<span class="ruby-identifier">fill</span>
+      <span class="ruby-keyword kw">else</span> <span class="ruby-comment cmt"># forward strand =&gt; box with arrow is last one</span>
+        <span class="ruby-identifier">range_with_arrow</span> = <span class="ruby-identifier">pixel_ranges</span>.<span class="ruby-identifier">pop</span>
+        <span class="ruby-ivar">@feature_context</span>.<span class="ruby-identifier">rectangle</span>(<span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">lend</span>, <span class="ruby-value">0</span>, <span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">rend</span> <span class="ruby-operator">-</span> <span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">lend</span> <span class="ruby-operator">-</span> <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_ARROW_LENGTH</span>, <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_HEIGHT</span>).<span class="ruby-identifier">fill</span>
+        <span class="ruby-identifier">arrow</span>(<span class="ruby-ivar">@feature_context</span>,<span class="ruby-identifier">:right</span>,<span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">rend</span><span class="ruby-operator">-</span><span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_ARROW_LENGTH</span>, <span class="ruby-value">0</span>,<span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">FEATURE_ARROW_LENGTH</span>)
+        <span class="ruby-ivar">@feature_context</span>.<span class="ruby-identifier">close_path</span>.<span class="ruby-identifier">fill</span>
+      <span class="ruby-keyword kw">end</span>
+      <span class="ruby-identifier">gap_starts</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">rend</span>)
+      <span class="ruby-identifier">gap_stops</span>.<span class="ruby-identifier">push</span>(<span class="ruby-identifier">range_with_arrow</span>.<span class="ruby-identifier">lend</span>)
+
+      <span class="ruby-comment cmt">#   And then add the others</span>
+      <span class="ruby-identifier">draw_spliced</span>(<span class="ruby-ivar">@feature_context</span>, <span class="ruby-identifier">pixel_ranges</span>, <span class="ruby-identifier">gap_starts</span>, <span class="ruby-identifier">gap_stops</span>)
+
+    <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>

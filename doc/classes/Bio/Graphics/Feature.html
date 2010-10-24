@@ -1,0 +1,374 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Bio::Graphics::Feature</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Bio::Graphics::Feature</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/bio/graphics/feature_rb.html">
+                lib/bio/graphics/feature.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The <a href="Feature.html">Bio::Graphics::Feature</a> class describes
+features to be placed on the graph. See <a
+href="../Graphics.html">Bio::Graphics</a> documentation for explanation of
+interplay between different classes.
+</p>
+<p>
+The position of the <a href="Feature.html">Feature</a> is a Bio::Locations
+object to make it possible to transparently work with simple and spliced
+features.
+</p>
+<p>
+The <a href="Feature.html">Bio::Graphics::Feature</a> class inherits from
+<a href="../Feature.html">Bio::Feature</a>.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000025">draw</a>&nbsp;&nbsp;
+      <a href="#M000026">find_row</a>&nbsp;&nbsp;
+      <a href="#M000024">new</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+    <div id="aliases-list">
+      <h3 class="section-bar">External Aliases</h3>
+
+      <div class="name-list">
+                        <table summary="aliases">
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">label</td>
+          <td>-&gt;</td>
+          <td class="context-item-value">name</td>
+        </tr>
+                        </table>
+      </div>
+    </div>
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">colour</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The colour to use to <a href="Feature.html#M000025">draw</a> this
+(sub)feature
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">feature_object</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The bioruby <a href="../Feature.html">Bio::Feature</a> object
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">glyph</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The glyph to use to <a href="Feature.html#M000025">draw</a> this
+(sub)feature
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">label</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The label of the feature
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">left_pixel_of_feature</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">left_pixel_of_subfeatures</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">link</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The URL to be followed when the glyph for this feature is clicked
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">locations</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">right_pixel_of_subfeatures</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">start</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">stop</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">subfeatures</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The <a href="../Graphics.html">Bio::Graphics</a> SubFeatures
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">top_pixel_of_feature</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">track</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc">
+The track that this feature belongs to
+
+</td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">vertical_offset</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000024" class="method-detail">
+        <a name="M000024"></a>
+
+        <div class="method-heading">
+          <a href="Feature.src/M000024.html" target="Code" class="method-signature"
+            onclick="popupCode('Feature.src/M000024.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(track, feature_object, opts = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+!!Not to be used directly. Use <a
+href="Track.html#M000022">Bio::Graphics::Track.add_feature</a> instead!! A
+feature can not exist except within the confines of a <a
+href="Track.html">Bio::Graphics::Track</a> object.
+</p>
+<hr size="1"></hr><p>
+<b>Arguments</b>:
+</p>
+<ul>
+<li><em>track</em> (required) :: <a href="Track.html">Bio::Graphics::Track</a>
+object that this feature belongs to
+
+</li>
+<li><em>feature</em> <em>object</em> (required) :: A <a
+href="../Feature.html">Bio::Feature</a> object (see bioruby)
+
+</li>
+<li>_:label_ :: Label of the feature. Default = &#8216;anonymous&#8216;
+
+</li>
+<li>_:link_ :: URL for clickable images. Default = nil
+
+</li>
+<li>_:glyph_ :: <a href="Glyph.html">Glyph</a> to use. Default = glyph of the
+track
+
+</li>
+<li>_:colour_ :: Colour. Default = colour of the track
+
+</li>
+</ul>
+<table>
+<tr><td valign="top"><b>Returns</b>:</td><td><a href="Feature.html">Bio::Graphics::Feature</a> object
+
+</td></tr>
+</table>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000025" class="method-detail">
+        <a name="M000025"></a>
+
+        <div class="method-heading">
+          <a href="Feature.src/M000025.html" target="Code" class="method-signature"
+            onclick="popupCode('Feature.src/M000025.html');return false;">
+          <span class="method-name">draw</span><span class="method-args">(panel_destination)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds the feature to the track cairo context. This method should not be used
+directly by the user, but is called by <a
+href="Track.html#M000023">Bio::Graphics::Track.draw</a>
+</p>
+<hr size="1"></hr><p>
+<b>Arguments</b>:
+</p>
+<ul>
+<li><em>track_drawing</em> (required) :: the track cairo object
+
+</li>
+</ul>
+<table>
+<tr><td valign="top"><b>Returns</b>:</td><td>FIXME: I don&#8216;t know
+
+</td></tr>
+</table>
+        </div>
+      </div>
+
+      <div id="method-M000026" class="method-detail">
+        <a name="M000026"></a>
+
+        <div class="method-heading">
+          <a href="Feature.src/M000026.html" target="Code" class="method-signature"
+            onclick="popupCode('Feature.src/M000026.html');return false;">
+          <span class="method-name">find_row</span><span class="method-args">()</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Calculates the row within the track where this feature should be drawn.
+This method should not be used directly by the user, but is called by <a
+href="Feature.html#M000025">Bio::Graphics::Feature.draw</a>
+</p>
+<hr size="1"></hr><table>
+<tr><td valign="top"><b>Arguments</b>:</td><td>none
+
+</td></tr>
+<tr><td valign="top"><b>Returns</b>:</td><td>row number
+
+</td></tr>
+</table>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

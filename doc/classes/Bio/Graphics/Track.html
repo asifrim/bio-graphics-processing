@@ -1,0 +1,355 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html xmlns="http://www.w3.org/1999/xhtml" xml:lang="en" lang="en">
+<head>
+  <title>Class: Bio::Graphics::Track</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <meta http-equiv="Content-Script-Type" content="text/javascript" />
+  <link rel="stylesheet" href="../../.././rdoc-style.css" type="text/css" media="screen" />
+  <script type="text/javascript">
+  // <![CDATA[
+
+  function popupCode( url ) {
+    window.open(url, "Code", "resizable=yes,scrollbars=yes,toolbar=no,status=no,height=150,width=400")
+  }
+
+  function toggleCode( id ) {
+    if ( document.getElementById )
+      elem = document.getElementById( id );
+    else if ( document.all )
+      elem = eval( "document.all." + id );
+    else
+      return false;
+
+    elemStyle = elem.style;
+    
+    if ( elemStyle.display != "block" ) {
+      elemStyle.display = "block"
+    } else {
+      elemStyle.display = "none"
+    }
+
+    return true;
+  }
+  
+  // Make codeblocks hidden by default
+  document.writeln( "<style type=\"text/css\">div.method-source-code { display: none }</style>" )
+  
+  // ]]>
+  </script>
+
+</head>
+<body>
+
+
+
+    <div id="classHeader">
+        <table class="header-table">
+        <tr class="top-aligned-row">
+          <td><strong>Class</strong></td>
+          <td class="class-name-in-header">Bio::Graphics::Track</td>
+        </tr>
+        <tr class="top-aligned-row">
+            <td><strong>In:</strong></td>
+            <td>
+                <a href="../../../files/lib/bio/graphics/track_rb.html">
+                lib/bio/graphics/track.rb
+                </a>
+        <br />
+            </td>
+        </tr>
+
+        <tr class="top-aligned-row">
+            <td><strong>Parent:</strong></td>
+            <td>
+                Object
+            </td>
+        </tr>
+        </table>
+    </div>
+  <!-- banner header -->
+
+  <div id="bodyContent">
+
+
+
+  <div id="contextContent">
+
+    <div id="description">
+      <p>
+The <a href="Track.html">Bio::Graphics::Track</a> class describes the
+container for features of the same type. See <a
+href="../Graphics.html">Bio::Graphics</a> documentation for explanation of
+interplay between different classes.
+</p>
+
+    </div>
+
+
+   </div>
+
+    <div id="method-list">
+      <h3 class="section-bar">Methods</h3>
+
+      <div class="name-list">
+      <a href="#M000022">add_feature</a>&nbsp;&nbsp;
+      <a href="#M000023">draw</a>&nbsp;&nbsp;
+      <a href="#M000021">new</a>&nbsp;&nbsp;
+      </div>
+    </div>
+
+  </div>
+
+
+    <!-- if includes -->
+
+    <div id="section">
+
+
+
+
+
+    <div id="attribute-list">
+      <h3 class="section-bar">Attributes</h3>
+
+      <div class="name-list">
+        <table>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">colour</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">features</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">glyph</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">grid</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">height</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">name</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">number_of_feature_rows</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">panel</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">show_label</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        <tr class="top-aligned-row context-row">
+          <td class="context-item-name">vertical_offset</td>
+          <td class="context-item-value">&nbsp;[RW]&nbsp;</td>
+          <td class="context-item-desc"></td>
+        </tr>
+        </table>
+      </div>
+    </div>
+      
+
+
+    <!-- if method_list -->
+    <div id="methods">
+      <h3 class="section-bar">Public Class methods</h3>
+
+      <div id="method-M000021" class="method-detail">
+        <a name="M000021"></a>
+
+        <div class="method-heading">
+          <a href="Track.src/M000021.html" target="Code" class="method-signature"
+            onclick="popupCode('Track.src/M000021.html');return false;">
+          <span class="method-name">new</span><span class="method-args">(panel, name, opts = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+!!Not to be used directly. Use <a
+href="Panel.html#M000030">Bio::Graphics::Panel.add_track</a> instead!! A
+track can not exist except within the confines of a <a
+href="Panel.html">Bio::Graphics::Panel</a> object.
+</p>
+<hr size="1"></hr><p>
+<b>Arguments</b>:
+</p>
+<ul>
+<li><em>panel</em> (required) :: <a href="Panel.html">Bio::Graphics::Panel</a>
+object that this track belongs to
+
+</li>
+<li><em>name</em> (required) :: Name of the track to be displayed (e.g.
+&#8216;genes&#8217;)
+
+</li>
+<li>_:label_ :: Boolean: should the label for each feature be drawn or not
+Default = true
+
+</li>
+<li>_:glyph_ :: <a href="Glyph.html">Glyph</a> to use for drawing the features.
+Options are: :generic, :directed_generic, :box, directed_box, :spliced,
+:directed_spliced, :dot, :triangle, :line and :line_with_handles. Default =
+:generic
+
+</li>
+<li><em>colour</em> :: Colour to be used to <a
+href="Track.html#M000023">draw</a> the features within the track (in RGB)
+Default = [0,0,1] (i.e. blue)
+
+</li>
+</ul>
+<table>
+<tr><td valign="top"><b>Returns</b>:</td><td><a href="Track.html">Bio::Graphics::Track</a> object
+
+</td></tr>
+</table>
+        </div>
+      </div>
+
+      <h3 class="section-bar">Public Instance methods</h3>
+
+      <div id="method-M000022" class="method-detail">
+        <a name="M000022"></a>
+
+        <div class="method-heading">
+          <a href="Track.src/M000022.html" target="Code" class="method-signature"
+            onclick="popupCode('Track.src/M000022.html');return false;">
+          <span class="method-name">add_feature</span><span class="method-args">(feature_object, opts = {})</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Takes a <a href="../Feature.html">Bio::Feature</a> and adds it as a <a
+href="Feature.html">Bio::Graphics::Feature</a> to this track. A track
+contains features of the same type, e.g. (for sequence annotation:) genes,
+polymorphisms, ESTs, etc.
+</p>
+<pre>
+ est_track.add_feature(Bio::Feature.new('EST1','50..60'))
+ est_track.add_feature(Bio::Feature.new('EST2','52..73'))
+ est_track.add_feature(Bio::Feature.new('EST3','41..69'))
+ gene_track.add_feature(Bio::Feature.new('gene2','39..73'))
+</pre>
+<p>
+For spliced features:
+</p>
+<pre>
+ est_track.add_feature('EST4','join(34..53,153..191)')
+</pre>
+<p>
+Or on the complement strand:
+</p>
+<pre>
+ est_track.add_feature('EST5','complement(join(34..53,153..191))')
+</pre>
+<p>
+See the documentation in Bio::Locations for a full description of how
+locations can be defined.
+</p>
+<p>
+<a href="../Features.html">Features</a> are only added if they are at least
+partly in the displayed region. If a feature is completely outside of the
+region, it&#8216;s not added. If it should be only partly visible, it is
+added completely.
+</p>
+<hr size="1"></hr><p>
+<b>Arguments</b>:
+</p>
+<ul>
+<li><em>feature</em> <em>object</em> (required) :: A <a
+href="../Feature.html">Bio::Feature</a> object
+
+</li>
+<li><em>label</em> :: Label for the feature. Default = &#8216;anonymous&#8216;
+
+</li>
+<li><em>link</em> :: URL to link to for this glyph. Default = nil
+
+</li>
+<li><em>glyph</em> :: <a href="Glyph.html">Glyph</a> for the feature. Default =
+glyph of the track
+
+</li>
+<li><em>colour</em> :: Colour for the feature. Default = colour of the track
+
+</li>
+</ul>
+<table>
+<tr><td valign="top"><b>Returns</b>:</td><td><a href="Feature.html">Bio::Graphics::Feature</a> object that was created
+or nil
+
+</td></tr>
+</table>
+        </div>
+      </div>
+
+      <div id="method-M000023" class="method-detail">
+        <a name="M000023"></a>
+
+        <div class="method-heading">
+          <a href="Track.src/M000023.html" target="Code" class="method-signature"
+            onclick="popupCode('Track.src/M000023.html');return false;">
+          <span class="method-name">draw</span><span class="method-args">(panel_destination)</span>
+          </a>
+        </div>
+      
+        <div class="method-description">
+          <p>
+Adds the track to a cairo drawing. This method should not be used directly
+by the user, but is called by <a
+href="Panel.html#M000031">Bio::Graphics::Panel.draw</a>
+</p>
+<hr size="1"></hr><p>
+<b>Arguments</b>:
+</p>
+<ul>
+<li><em>panel__drawing</em> (required) :: the panel cairo object
+
+</li>
+</ul>
+<table>
+<tr><td valign="top"><b>Returns</b>:</td><td>FIXME: I don&#8216;t know
+
+</td></tr>
+</table>
+        </div>
+      </div>
+
+
+    </div>
+
+
+  </div>
+
+
+<div id="validator-badges">
+  <p><small><a href="http://validator.w3.org/check/referer">[Validate]</a></small></p>
+</div>
+
+</body>
+</html>

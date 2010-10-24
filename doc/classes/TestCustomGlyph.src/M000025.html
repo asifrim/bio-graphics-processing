@@ -1,0 +1,25 @@
+<?xml version="1.0" encoding="iso-8859-1"?>
+<!DOCTYPE html 
+     PUBLIC "-//W3C//DTD XHTML 1.0 Transitional//EN"
+     "http://www.w3.org/TR/xhtml1/DTD/xhtml1-transitional.dtd">
+
+<html>
+<head>
+  <title>test_draw (TestCustomGlyph)</title>
+  <meta http-equiv="Content-Type" content="text/html; charset=iso-8859-1" />
+  <link rel="stylesheet" href="../.././rdoc-style.css" type="text/css" media="screen" />
+</head>
+<body class="standalone-code">
+  <pre><span class="ruby-comment cmt"># File test/unit/test_custom_glyph.rb, line 18</span>
+  <span class="ruby-keyword kw">def</span> <span class="ruby-identifier">test_draw</span>
+    <span class="ruby-identifier">panel</span> = <span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Graphics</span><span class="ruby-operator">::</span><span class="ruby-constant">Panel</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value">500</span>, <span class="ruby-identifier">:width</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">250</span>, <span class="ruby-identifier">:clickable</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">false</span>,
+                                     <span class="ruby-identifier">:display_range</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value">0</span><span class="ruby-operator">..</span><span class="ruby-value">1000</span>)
+    <span class="ruby-identifier">track</span> = <span class="ruby-identifier">panel</span>.<span class="ruby-identifier">add_track</span>(<span class="ruby-value str">'test_track'</span>, <span class="ruby-identifier">:label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-keyword kw">false</span>, <span class="ruby-identifier">:glyph</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">:custom_test_glyph</span>, <span class="ruby-identifier">:colour</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-value">0</span>,<span class="ruby-value">0</span>,<span class="ruby-value">1</span>])
+    <span class="ruby-identifier">track</span>.<span class="ruby-identifier">add_feature</span>(<span class="ruby-constant">Bio</span><span class="ruby-operator">::</span><span class="ruby-constant">Feature</span>.<span class="ruby-identifier">new</span>(<span class="ruby-value str">'type'</span>, <span class="ruby-value str">'123..456'</span>), <span class="ruby-identifier">:label</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-value str">'test_feature'</span>)
+    
+    <span class="ruby-identifier">panel</span>.<span class="ruby-identifier">draw</span>(<span class="ruby-value str">'output.png'</span>)
+    <span class="ruby-identifier">system</span>(<span class="ruby-value str">&quot;display output.png &amp; sleep 2 &amp;&amp; kill $!&quot;</span>)
+    <span class="ruby-constant">File</span>.<span class="ruby-identifier">delete</span>(<span class="ruby-value str">'output.png'</span>)
+  <span class="ruby-keyword kw">end</span></pre>
+</body>
+</html>
