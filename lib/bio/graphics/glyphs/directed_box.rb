@@ -9,6 +9,7 @@
 module Bio::Graphics::Glyph
   class Bio::Graphics::Glyph::DirectedBox < Bio::Graphics::Glyph::Common
     def render(panel)
+      panel.no_fill
       if @subfeature.strand == -1 # Reverse strand
         panel.line(self.left_pixel+Bio::Graphics::FEATURE_ARROW_LENGTH, self.subfeature.feature.vertical_offset, self.right_pixel,self.subfeature.feature.vertical_offset )
         panel.line(self.right_pixel,self.subfeature.feature.vertical_offset,  self.right_pixel,self.subfeature.feature.vertical_offset + Bio::Graphics::FEATURE_HEIGHT )

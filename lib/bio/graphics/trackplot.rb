@@ -36,6 +36,26 @@ class Trackplot < Processing::App
     panel.height = ruler.height
     panel.height += 20*panel.number_of_feature_rows
     panel.height += 10*panel.tracks.length #To correct for the track headers
+    self. frame.set_resizable(true)
+    self.frame.set_size(panel.width,panel.height+50)
+    puts
+      # And print to file
+#      if panel.format == :png
+#          self.save()
+#      else
+#        case panel.format
+#        when :pdf
+#          output_destination = Cairo::PDFSurface.new(file_name, @width, @height)
+#        when :ps
+#          output_destination = Cairo::PSSurface.new(file_name, @width, @height)
+#        when :svg
+#          output_destination = Cairo::SVGSurface.new(file_name, @width, @height)
+#        end
+#
+#        output_context = Cairo::Context.new(output_destination)
+#        output_context.set_source(@final_panel_destination, 0, 0)
+#        output_context.rectangle(0,0,@width, @height).fill
+#      end
 
   end
        
@@ -64,23 +84,7 @@ class Trackplot < Processing::App
   #      resized_context.rectangle(0,0,@width, @height).fill
   #    end
   #
-  #    # And print to file
-  #    if @format == :png
-  #      @final_panel_destination.write_to_png(file_name)
-  #    else
-  #      case @format
-  #      when :pdf
-  #        output_destination = Cairo::PDFSurface.new(file_name, @width, @height)
-  #      when :ps
-  #        output_destination = Cairo::PSSurface.new(file_name, @width, @height)
-  #      when :svg
-  #        output_destination = Cairo::SVGSurface.new(file_name, @width, @height)
-  #      end
-  #
-  #      output_context = Cairo::Context.new(output_destination)
-  #      output_context.set_source(@final_panel_destination, 0, 0)
-  #      output_context.rectangle(0,0,@width, @height).fill
-  #    end
+    
   #
   #
   #    if @clickable # create png and map
@@ -264,16 +268,14 @@ def render_subfeature(subfeature)
   end
 
   def setup
-    size(1000,600)
+    size(2000,2000)
     background(255,255,255)
     @myfont = create_font("ProggyClean",12)
     @myfontsmall = create_font("ProggyClean",9)
     text_font(@myfont)
-
   end
 
-  def add_rect
-    fill(255)
-    rect(20,20,100,100)
+  def rescalergb(arr)
+    return [arr.shift*255,arr.shift*255,arr.shift*255]
   end
 end

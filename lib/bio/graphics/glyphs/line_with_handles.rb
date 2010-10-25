@@ -8,18 +8,14 @@
 
 module Bio::Graphics::Glyph
   class Bio::Graphics::Glyph::LineWithHandles < Bio::Graphics::Glyph::Common
-    def draw
-      @feature_context.move_to(self.left_pixel,Bio::Graphics::FEATURE_ARROW_LENGTH)               
-      @feature_context.line_to(self.right_pixel,Bio::Graphics::FEATURE_ARROW_LENGTH)
-      @feature_context.stroke
+    def render(panel)
 
-      @feature_context.set_source_rgb([0,0,0])
-      arrow(@feature_context,:right,self.left_pixel,0,Bio::Graphics::FEATURE_ARROW_LENGTH)
-      @feature_context.close_path.stroke              
-      arrow(@feature_context,:left,self.right_pixel,0,Bio::Graphics::FEATURE_ARROW_LENGTH)
-      @feature_context.close_path.stroke
+      panel.line(self.left_pixel,Bio::Graphics::FEATURE_ARROW_LENGTH + self.subfeature.feature.vertical_offset,self.right_pixel,Bio::Graphics::FEATURE_ARROW_LENGTH + self.subfeature.feature.vertical_offset)
 
-      @feature_context.set_source_rgb(@subfeature.colour)
+      panel.stroke(0,0,0)
+      arrow(panel,:right,self.left_pixel - 2, self.subfeature.feature.vertical_offset-1,Bio::Graphics::FEATURE_ARROW_LENGTH)
+      arrow(panel,:left,self.right_pixel + 2, self.subfeature.feature.vertical_offset-1,Bio::Graphics::FEATURE_ARROW_LENGTH)
+
     end
   end
 end

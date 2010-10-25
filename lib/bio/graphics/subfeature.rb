@@ -28,6 +28,7 @@ class Bio::Graphics::SubFeature
     
     @glyph = opts[:glyph]
     @colour = opts[:colour]
+    @colour ||= [1,0,0]
 
     @locations = @feature_object.locations
 

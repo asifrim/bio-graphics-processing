@@ -44,10 +44,13 @@ module Bio::Graphics::Glyph
     # * _top_pixel_of_feature_:: 
     # * _gap_starts_:: 
     # * _gap_stops_:: 
-    def draw_spliced(feature_context, pixel_ranges, gap_starts, gap_stops)
+    def draw_spliced(panel, pixel_ranges, gap_starts, gap_stops)
+      p self.subfeature.colour
+      rgb = panel.rescalergb(self.subfeature.colour)
+      panel.fill(rgb.shift,rgb.shift,rgb.shift)
       # draw the parts
       pixel_ranges.each do |range|
-        feature_context.rectangle(range.lend, 0, range.rend - range.lend, Bio::Graphics::FEATURE_HEIGHT).fill
+        panel.rect(range.lend, self.subfeature.feature.vertical_offset, range.rend - range.lend, Bio::Graphics::FEATURE_HEIGHT)
         gap_starts.push(range.rend)
         gap_stops.push(range.lend)
       end
@@ -58,83 +61,81 @@ module Bio::Graphics::Glyph
       gap_stops.sort!.shift
 
       gap_starts.length.times do |gap_number|
-        connector(feature_context,gap_starts[gap_number].to_f,gap_stops[gap_number].to_f)
+        connector(panel,gap_starts[gap_number].to_f,gap_stops[gap_number].to_f)
       end
 
-      if @subfeature.hidden_subfeatures_at_stop
-        from = @subfeature.pixel_range_collection.sort_by{|pr| pr.lend}[-1].rend
-        to = @subfeature.feature.track.panel.width
-        feature_context.move_to(from, Bio::Graphics::FEATURE_ARROW_LENGTH)
-        feature_context.line_to(to, Bio::Graphics::FEATURE_ARROW_LENGTH)
-        feature_context.stroke
+      if self.subfeature.hidden_subfeatures_at_stop
+        from = self.subfeature.pixel_range_collection.sort_by{|pr| pr.lend}[-1].rend
+        to = self.subfeature.feature.track.panel.width
+        panel.line(from, Bio::Graphics::FEATURE_ARROW_LENGTH + self.subfeature.feature.vertical_offset, to, Bio::Graphics::FEATURE_ARROW_LENGTH + self.subfeature.feature.vertical_offset )
       end
 
-      if @subfeature.hidden_subfeatures_at_start
+      if self.subfeature.hidden_subfeatures_at_start
         from = 1
-        to = @subfeature.pixel_range_collection.sort_by{|pr| pr.lend}[0].lend
-        feature_context.move_to(from, Bio::Graphics::FEATURE_ARROW_LENGTH)
-        feature_context.line_to(to, Bio::Graphics::FEATURE_ARROW_LENGTH)
-        feature_context.stroke
+        to = self.subfeature.pixel_range_collection.sort_by{|pr| pr.lend}[0].lend
+        panel.line(from, Bio::Graphics::FEATURE_ARROW_LENGTH + self.subfeature.feature.vertical_offset , to , Bio::Graphics::FEATURE_ARROW_LENGTH+ self.subfeature.feature.vertical_offset)
       end
     end
 
     # Method to draw the arrows of directed glyphs. Not to be used
     # directly, but called by Feature#draw.
-    def arrow(feature_context,direction,x,y,size)
+    def arrow(panel,direction,x,y,size)
+      panel.no_stroke
+      panel.begin_shape
       case direction
       when :right
-        feature_context.move_to(x,y)
-        feature_context.rel_line_to(size,size)
-        feature_context.rel_line_to(-size,size)
-        feature_context.close_path.fill
+        panel.vertex(x,y)
+        panel.vertex(x+size,y+size)
+        panel.vertex(x,y+2*size)
       when :left
-        feature_context.move_to(x,y)
-        feature_context.rel_line_to(-size,size)
-        feature_context.rel_line_to(size,size)
-        feature_context.close_path.fill
+        panel.vertex(x,y)
+        panel.vertex(x-size,y+size)
+        panel.vertex(x,y+2*size)
       when :north
-        feature_context.move_to(x-size,y+size)
-        feature_context.rel_line_to(size,-size)
-        feature_context.rel_line_to(size,size)
-        feature_context.close_path.fill
+        panel.vertex(x-size,y+size)
+        panel.vertex(x,y)
+        panel.vertex(x+size,y+size)
       when :south
-        feature_context.move_to(x-size,y-size)
-        feature_context.rel_line_to(size,size)
-        feature_context.rel_line_to(size,-size)
-        feature_context.close_path.fill
+        panel.vertex(x-size,y-size)
+        panel.vertex(x,y)
+        panel.vertex(x+size,y-size)
       end
+      panel.end_shape()
     end
 
     # Method to draw the arrows of directed glyphs. Not to be used
     # directly, but called by Feature#draw.
     def open_arrow(panel,direction,x,y,size)
+      panel.begin_shape
       case direction
       when :right
-        panel.line(x,y,x+size,y+size)
-        panel.line(x+size,y+size,x,y+2*size)
+        panel.vertex(x,y)
+        panel.vertex(x+size,y+size)
+        panel.vertex(x,y+2*size)
       when :left
-        panel.line(x,y,x-size,y+size)
-        panel.line(x-size,y+size,x,y+2*size)
+        panel.vertex(x,y)
+        panel.vertex(x-size,y+size)
+        panel.vertex(x,y+2*size)
       when :north
-        panel.line(x-size,y+size,x,y)
-        panel.line(x,y,x+size,y+size)
+        panel.vertex(x-size,y+size)
+        panel.vertex(x,y)
+        panel.vertex(x+size,y+size)
       when :south
-        panel.line(x-size,y-size,x,y)
-        panel.line(x,y,x+size,y-size)
+        panel.vertex(x-size,y-size)
+        panel.vertex(x,y)
+        panel.vertex(x+size,y-size)
       end
+      panel.end_shape()
     end
     
     # Method to draw the connections (introns) of spliced glyphs. Not to
     # be used directly, but called by Feature#draw.
-    def connector(feature_context,from,to)
-      line_width = feature_context.line_width
-      feature_context.set_line_width(0.5)
+    def connector(panel,from,to)
+      panel.stroke(0)
+      panel.stroke_weight(0.5)
       middle = from + ((to - from)/2)
-      feature_context.move_to(from, 2)
-      feature_context.line_to(middle, 7)
-      feature_context.line_to(to, 2)
-      feature_context.stroke
-      feature_context.set_line_width(line_width)
+      panel.line(from, self.subfeature.feature.vertical_offset+ 2, middle, self.subfeature.feature.vertical_offset+ 7)
+      panel.line(middle, self.subfeature.feature.vertical_offset+7,to, self.subfeature.feature.vertical_offset+2)
     end                    
 
   end

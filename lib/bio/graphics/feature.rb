@@ -49,7 +49,7 @@ class Bio::Graphics::Feature
     @label = opts[:label]
     @link = opts[:link]
     @glyph = opts[:glyph]
-    @colour = opts[:colour]
+    @colour = opts[:colour] || @track.colour
     
     @locations = @feature_object.locations
 
