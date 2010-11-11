@@ -9,6 +9,8 @@
 module Bio::Graphics::Glyph
   class Bio::Graphics::Glyph::Line < Bio::Graphics::Glyph::Common
     def render(panel)
+      colour = self.subfeature.colour.clone
+      panel.stroke(colour.shift,colour.shift,colour.shift)
       panel.line(self.left_pixel,self.subfeature.feature.vertical_offset + Bio::Graphics::FEATURE_ARROW_LENGTH, self.right_pixel, Bio::Graphics::FEATURE_ARROW_LENGTH+ self.subfeature.feature.vertical_offset)
     end
   end

@@ -45,9 +45,11 @@ module Bio::Graphics::Glyph
     # * _gap_starts_:: 
     # * _gap_stops_:: 
     def draw_spliced(panel, pixel_ranges, gap_starts, gap_stops)
-      p self.subfeature.colour
-      rgb = panel.rescalergb(self.subfeature.colour)
-      panel.fill(rgb.shift,rgb.shift,rgb.shift)
+      panel.no_stroke
+      colour = self.subfeature.colour.clone
+      panel.fill(colour.shift,colour.shift,colour.shift)
+      #rgb = panel.rescalergb(self.subfeature.colour)
+      #panel.fill(rgb.shift,rgb.shift,rgb.shift)
       # draw the parts
       pixel_ranges.each do |range|
         panel.rect(range.lend, self.subfeature.feature.vertical_offset, range.rend - range.lend, Bio::Graphics::FEATURE_HEIGHT)
@@ -81,6 +83,8 @@ module Bio::Graphics::Glyph
     # directly, but called by Feature#draw.
     def arrow(panel,direction,x,y,size)
       panel.no_stroke
+      colour = self.subfeature.colour.clone
+      panel.fill(colour.shift,colour.shift,colour.shift)
       panel.begin_shape
       case direction
       when :right
@@ -106,10 +110,12 @@ module Bio::Graphics::Glyph
     # Method to draw the arrows of directed glyphs. Not to be used
     # directly, but called by Feature#draw.
     def open_arrow(panel,direction,x,y,size)
+      colour = self.subfeature.colour.clone
+      panel.stroke(colour.shift,colour.shift,colour.shift)
       panel.begin_shape
       case direction
       when :right
-        panel.vertex(x,y)
+        panel.vertex(x-1,y-1)
         panel.vertex(x+size,y+size)
         panel.vertex(x,y+2*size)
       when :left

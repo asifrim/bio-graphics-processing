@@ -1,3 +1,4 @@
+require 'rubygems'
 require File.dirname(__FILE__) + '/../lib/bio-graphics'
 
 #Initialize graphic for a nucleotide sequence of 4173015 bp, zooming in on the
@@ -36,4 +37,4 @@ File.open('data.txt').each do |line|
 end
 
 # And draw
-my_panel.draw('my_panel.png')
+my_panel.draw

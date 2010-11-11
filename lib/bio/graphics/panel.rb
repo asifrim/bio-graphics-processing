@@ -114,7 +114,6 @@ module Bio::Graphics
         :display_range => Range.new(0,@length),
         :vertical => false,
         :clickable => false,
-        :format => :png
       }.merge(opts)
       
       @width = opts[:width].to_i
@@ -131,8 +130,8 @@ module Bio::Graphics
       @clickable = opts[:clickable]
       
       @format = opts[:format]
-      if ! [:png, :svg, :pdf, :ps].include?(@format)
-        raise "[ERROR] Format has to be one of :png, :svg, :pdf or :ps."
+      if @format && ! [:png, :tga, :tif, :jpeg].include?(@format)
+        raise "[ERROR] Format has to be one of :png, :tga, :tif, :jpeg."
       end
       
       @tracks = Array.new
@@ -167,6 +166,11 @@ module Bio::Graphics
       track = Bio::Graphics::Track.new(self, name, opts)
       @tracks.push(track)
       return track
+    end
+
+    def draw
+      plot = Trackplot.new()
+      plot.render_panel(self)
     end
 
   

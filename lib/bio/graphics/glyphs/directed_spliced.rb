@@ -10,6 +10,8 @@ module Bio::Graphics::Glyph
   class Bio::Graphics::Glyph::DirectedSpliced < Bio::Graphics::Glyph::Common
     def render(panel)
       panel.no_stroke
+      colour = self.subfeature.colour.clone
+      panel.fill(colour.shift,colour.shift,colour.shift)
       gap_starts = Array.new
       gap_stops = Array.new
 
