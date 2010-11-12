@@ -122,13 +122,5 @@ class Bio::Graphics::SubFeature
 
   # Are there subfeatures out of view at the right side of the picture?
   attr_accessor :hidden_subfeatures_at_stop
-
-  # Adds the subfeature to the track cairo context. This method should not 
-  # be used directly by the user, but is called by
-  # Bio::Graphics::Feature::SubFeature.draw
-  # ---
-  # *Arguments*:
-  # * _track_drawing_ (required) :: the track cairo object
-  # *Returns*:: FIXME: I don't know
   
 end #SubFeature

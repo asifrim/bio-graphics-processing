@@ -7,9 +7,12 @@
 # License::     The Ruby License
 # 
 
-require 'bio'
+require 'bio/feature'
+require 'bio/location'
 require 'ruby-processing'
 require 'stringio'
+
+SKETCH_PATH = Dir.pwd
 
 class Range
   alias :lend :begin
