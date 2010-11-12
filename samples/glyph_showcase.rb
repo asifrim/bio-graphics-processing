@@ -1,3 +1,4 @@
+require 'rubygems'
 require 'bio-graphics-processing'
 
 my_panel = Bio::Graphics::Panel.new(500, :width => 1000, :format => :png)
